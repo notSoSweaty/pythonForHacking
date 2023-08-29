@@ -26,10 +26,10 @@ def get_arguments():
     parser.add_argument("-r", "--router", dest="router", help="Router's IP")
     options = parser.parse_args()
 
-    if (not options.target):
-        print("[-] Missing the target's IP")
-        exit()
-    elif (not options.router):
+    if not options.target:
+        parser.error("[-] Missing the target's IP")
+
+    elif not options.router:
         print("[+] router's IP wasn't entered, finding gateway IP")
         options.router = router_ip_finder()
 
@@ -62,3 +62,6 @@ def main():
 
     scapy.send(packet_for_target)
     scapy.send(packet_for_router)
+
+
+main()
