@@ -8,7 +8,16 @@ import re
 
 def router_ip_finder():
     dirty_Output = subprocess.check_output(["ip r | grep default"])
-    cleaned_Output = re.search(r'\w\w:\w\w:\w\w:\w\w:\w\w:\w\w', dirty_Output)
+    cleaner_Output = re.search(r'\d', dirty_Output)
+
+    cleanist_Output = ""
+    i = 0
+    while (i < 4):
+        cleanist_Output = cleanist_Output + cleaner_Output[i]
+        i += 1
+
+    print("[+] " + cleanist_Output + " will be used as the gateway")
+    return cleanist_Output
 
 
 def get_arguments():
