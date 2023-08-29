@@ -7,17 +7,13 @@ import re
 
 
 def router_ip_finder():
-    dirty_Output = subprocess.check_output(["ip r | grep default"])
-    cleaner_Output = re.search(r'\d', dirty_Output)
+    dirty_Output = subprocess.check_output("route", shell=True)
+    print(dirty_Output)
 
-    cleanist_Output = ""
-    i = 0
-    while (i < 4):
-        cleanist_Output = cleanist_Output + cleaner_Output[i]
-        i += 1
-
-    print("[+] " + cleanist_Output + " will be used as the gateway")
-    return cleanist_Output
+    cleaning_Output = re.search(r'\R', dirty_Output)
+    clean_Output = cleaning_Output.group(2)
+    print("[+] " + clean_Output + " will be used as the gateway")
+    return clean_Output
 
 
 def get_arguments():
