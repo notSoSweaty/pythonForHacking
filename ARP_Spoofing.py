@@ -6,14 +6,14 @@ import subprocess
 import re
 
 
-def router_ip_finder():
-    dirty_Output = subprocess.check_output("route", shell=True)
-    print(dirty_Output)
-
-    cleaning_Output = re.search(r'\R', dirty_Output)
-    clean_Output = cleaning_Output.group(2)
-    print("[+] " + clean_Output + " will be used as the gateway")
-    return clean_Output
+#    def router_ip_finder():
+#        dirty_Output = subprocess.check_output("route", shell=True)
+#        dirt_Output = dirty_Output.decode()
+#
+#        cleaning_Output = re.search(r'\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}', dirt_Output)
+#        clean_Output = cleaning_Output.group(1)
+#        print("[+] " + clean_Output + " will be used as the gateway")
+#        return clean_Output
 
 
 def get_arguments():
@@ -23,11 +23,12 @@ def get_arguments():
     options = parser.parse_args()
 
     if not options.target:
-        parser.error("[-] Missing the target's IP")
+        print("[-] Missing the target's IP")
 
-    elif not options.router:
-        print("[+] router's IP wasn't entered, finding gateway IP")
-        options.router = router_ip_finder()
+    if not options.router:
+        print("[-] Missing the router's IP")
+        # print("[+] router's IP wasn't entered, finding gateway IP")
+        # options.router = router_ip_finder()
 
     return options
 
@@ -38,6 +39,7 @@ def get_target_mac(ip):
     arp_req_broad = broadcast/arp_request
     answered_list = scapy.srp(arp_req_broad, timeout=1, verbose=False)[0]
 
+    print(answered_list[0][1].hwsrc)
     return answered_list[0][1].hwsrc
 
 
