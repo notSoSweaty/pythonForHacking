@@ -2,7 +2,7 @@
 
 import scapy.all as scapy
 import argparse
-import subprocess
+# import subprocess
 # import re
 import time
 # import atexit
@@ -84,8 +84,9 @@ def main():
         scapy.send(packet_for_target, verbose=False)
         scapy.send(packet_for_router, verbose=False)
         packet_count = packet_count + 2
-        print("[+] sent " + str(packet_count) + " packets")
+        print("\r[+] sent " + str(packet_count) + " packets", end="")
         time.sleep(3)
+
 
 #    atexit.register(stop_flow(interface))
 
