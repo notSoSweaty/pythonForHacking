@@ -5,16 +5,6 @@ import argparse
 # import subprocess
 # import re
 import time
-# import atexit
-
-#    def router_ip_finder():
-#        dirty_Output = subprocess.check_output("route", shell=True)
-#        dirt_Output = dirty_Output.decode()
-#
-#        cleaning_Output = re.search(r'\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}', dirt_Output)
-#        clean_Output = cleaning_Output.group(1)
-#        print("[+] " + clean_Output + " will be used as the gateway")
-#        return clean_Output
 
 
 def get_arguments():
@@ -103,9 +93,6 @@ def main():
 #    start_flow(interface)
 
     spoofer(packet_for_target, packet_for_router, target_IP, router_IP)
-
-
-#    atexit.register(stop_flow(interface))
 
 
 main()
