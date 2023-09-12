@@ -21,7 +21,7 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target", dest="target", help="Target's IP")
     parser.add_argument("-r", "--router", dest="router", help="Router's IP")
-    parser.add_argument("-i", "--interface", dest="interface", help="interface being used")
+#    parser.add_argument("-i", "--interface", dest="interface", help="interface being used")
 
     options = parser.parse_args()
 
@@ -33,9 +33,9 @@ def get_arguments():
         # print("[+] router's IP wasn't entered, finding gateway IP")
         # options.router = router_ip_finder()
 
-    if not options.interface:
-        print("[+] Missing the interface, assuming wlp2s0")
-        options.interface = "wlp2s0"
+#    if not options.interface:
+#        print("[+] Missing the interface, assuming wlp2s0")
+#        options.interface = "wlp2s0"
 
     return options
 
