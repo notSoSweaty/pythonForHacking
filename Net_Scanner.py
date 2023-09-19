@@ -7,16 +7,18 @@ import argparse
 def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--target", dest="target", help="Target IP or IP range")
+    parser.add_argument("-i", "--interface", dest="interface", help="interface to be used to scan the target")
+
     options = parser.parse_args()
 
     return options
 
 
-def scanner(ip):
+def scanner(ip, interface):
     arpRequest = scapy.ARP(pdst=ip)
     broadcast = scapy.Ether(dst="ff:ff:ff:ff:ff:ff")
     arpRequestBroadcast = broadcast/arpRequest
-    answered_List = scapy.srp(arpRequestBroadcast, timeout=2, verbose=False)[0]
+    answered_List = scapy.srp(arpRequestBroadcast, iface=interface, timeout=2, verbose=False)[0]
 # list cleaner below
     device_list = []
     for index in answered_List:
@@ -38,7 +40,8 @@ def main():
 
     options = get_arguments()
     user_target = options.target
-    device_list = scanner(user_target)
+    user_interface = options.interface
+    device_list = scanner(user_target, user_interface)
     print_result(device_list)
 
 
