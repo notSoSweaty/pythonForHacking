@@ -78,7 +78,11 @@ def restore(dest_IP, source_IP):
     source_mac = get_target_mac(source_IP)
 
     last_packet = scapy.ARP(op=2, pdst=dest_IP, hwdst=dest_mac, psrc=source_IP, hwsrc=source_mac)
-    scapy.send(last_packet)
+
+    i = 0
+    while i > 5:
+        i = i+1
+        scapy.send(last_packet)
 
 
 def main():

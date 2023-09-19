@@ -34,7 +34,12 @@ def print_result(results_list):
         print("---------------------------------------------------------")
 
 
-options = get_arguments()
-user_target = options.target
-device_list = scanner(user_target)
-print_result(device_list)
+def main():
+
+    options = get_arguments()
+    user_target = options.target
+    device_list = scanner(user_target)
+    print_result(device_list)
+
+
+main()

@@ -8,16 +8,16 @@ import re
 def get_arguments():
 
     parser = optparse.OptionParser()
-    interface_help_messege = "Interface to change its MAC address. The interface here is wlp2s0"
+    interface_help_messege = "Interface to change its MAC address. The default interface is wlan0"
     parser.add_option("-i", "--interface", dest="interface", help=interface_help_messege)
     parser.add_option("-m", "--mac", dest="new_mac", help="New MAC address")
 
     (options, arguments) = parser.parse_args()
 
     if not options.interface:
-        # Put in a default interface wlp2s0
-        options.interface = "wlp2s0"
-        print("default interface of wlp2s0 will be applied")
+        # Put in a default interface wlan0
+        options.interface = "wlan0"
+        print("default interface of wlan0 will be applied")
     if not options.new_mac:
         # put in default mac F4:CE:46:23:a8
         options.new_mac = "F4:CE:46:23:A8:56"
