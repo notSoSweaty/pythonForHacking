@@ -12,7 +12,7 @@ def get_arguments():
     parser.add_argument("-i", "--interface", dest="interface", help=interface_help_messege)
     parser.add_argument("-m", "--mac", dest="new_mac", help="New MAC address")
 
-    (options, arguments) = parser.parse_args()
+    (options) = parser.parse_args()
 
     if not options.interface:
         # Put in a default interface wlan0

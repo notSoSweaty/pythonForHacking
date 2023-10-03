@@ -13,7 +13,7 @@ def get_arguments():
     parser.add_argument("-r", "--router", dest="router", help="Router's IP")
     parser.add_argument("-i", "--interface", dest="interface", help="interface being used")
 
-    (options, arguments) = parser.parse_args()
+    (options) = parser.parse_args()
 
     if not options.target:
         print("[-] Missing the target's IP")
