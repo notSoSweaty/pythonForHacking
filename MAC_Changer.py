@@ -1,16 +1,16 @@
 #!/user/bin/env python
 
 import subprocess
-import optparse
+import argparse
 import re
 
 
 def get_arguments():
 
-    parser = optparse.OptionParser()
+    parser = argparse.ArgumentParser()
     interface_help_messege = "Interface to change its MAC address. The default interface is wlan0"
-    parser.add_option("-i", "--interface", dest="interface", help=interface_help_messege)
-    parser.add_option("-m", "--mac", dest="new_mac", help="New MAC address")
+    parser.add_argument("-i", "--interface", dest="interface", help=interface_help_messege)
+    parser.add_argument("-m", "--mac", dest="new_mac", help="New MAC address")
 
     (options, arguments) = parser.parse_args()
 
