@@ -16,10 +16,10 @@ def get_arguments():
     (options) = parser.parse_args()
 
     if not options.target:
-        print("[-] Missing the target's IP")
+        parser.error("[-] Missing the target's IP")
 
     if not options.router:
-        print("[-] Missing the router's IP")
+        parser.error("[-] Missing the router's IP")
         # print("[+] router's IP wasn't entered, finding gateway IP")
         # options.router = router_ip_finder()
 

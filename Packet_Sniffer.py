@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import scapy.all as scapy
 import argparse
+from scapy.layers import http
 
 
 def get_arguments():
@@ -12,18 +13,19 @@ def get_arguments():
     (options) = parser.parse_args()
 
     if not options.interface:
-        parser.error("[-] interface wasn't specified, using wlan0")
+        print("[-] interface wasn't specified, using wlan0")
         options.interface = "wlan0"
 
     return options
 
 
 def sniff(interface):
-    scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet)
+    scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet, filter="port 80")
 
 
 def process_sniffed_packet(packet):
-    print(packet)
+    if packet.haslayer(http.HTTPRequest):
+        print(packet)
 
 
 def main():
