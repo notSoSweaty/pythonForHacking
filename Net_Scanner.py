@@ -21,8 +21,6 @@ def scanner(ip, interface):
     answered_List = scapy.srp(arpRequestBroadcast, iface=interface, timeout=2, verbose=False)[0]
 # list cleaner below
 
-    print(answered_List)
-
     device_list = []
     for index in answered_List:
         device_dict = {"ip": index[1].psrc, "mac": index[1].hwsrc}
