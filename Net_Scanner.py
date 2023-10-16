@@ -11,6 +11,11 @@ def get_arguments():
 
     options = parser.parse_args()
 
+    if not options.interface:
+        # Put in a default interface wlan0
+        options.interface = "wlan0"
+        print("default interface of wlan0 will be applied")
+
     return options
 
 
