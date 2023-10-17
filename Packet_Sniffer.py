@@ -7,8 +7,8 @@ from scapy.layers import http
 def get_arguments():
 
     parser = argparse.ArgumentParser()
-    help_messege = "interface to be used"
-    parser.add_argument("-i", "--interface", dest="interface", help=help_messege)
+    help_mess = "interface to be used"
+    parser.add_argument("-i", "--interface", dest="interface", help=help_mess)
 
     (options) = parser.parse_args()
 
@@ -20,12 +20,18 @@ def get_arguments():
 
 
 def sniff(interface):
-    scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet, filter="port 80")
+    scapy.sniff(iface=interface, store=False, prn=process_sniffed_packet)
 
 
 def process_sniffed_packet(packet):
+    # Maybe make it more inclusive of other types of packets later
     if packet.haslayer(http.HTTPRequest):
-        print(packet)
+        if packet.haslayer(scapy.Raw):
+            load = packet[scapy.Raw].load
+            keywords = ["username", "user", "login", "password", "pass", "email"]
+            for keyword in keywords:
+                if keyword in load:
+                    print(load)
 
 
 def main():
