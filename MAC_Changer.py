@@ -4,7 +4,6 @@ import subprocess
 import argparse
 import re
 
-# TEST
 
 def get_arguments():
 
